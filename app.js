@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { writeFile, copyFile } = require('./utils/generate-site.js');
 const inquirer = require('inquirer');
 const generatePage = require('./src/page-template');
 
@@ -129,14 +129,28 @@ Add a New Project
 promptUser()
   .then(promptProject)
   .then(portfolioData => {
-    console.log(portfolioData);
-    // will be uncommented in lesson 4
-    // const pageHTML = generatePage(portfolioData);
+    return generatePage(portfolioData);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+  
     // fs.writeFile('./index.html', pageHTML, err => {
     //   if (err) throw new Error(err);
+
     //   console.log('Page created! Check out index.html in this directory to see it!');
     // });
-  });
+  
 
 
 // inquirer
@@ -204,5 +218,4 @@ promptUser()
 // fs.writeFile('index.html', generatePage(name, github), err => {
 //   if (err) throw err;
 
-//   console.log('portfolio complete, checkout index.html to see the outcome');
-// });
+//   console.log('portfolio complete, checkout index.///// html to see the outcome'); 
